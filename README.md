@@ -18,7 +18,6 @@ git clone https://github.com/yourusername/yourrepository.git
 
 Install dependencies:
 
-cd yourrepository
 npm install
 Compile contracts:
 
