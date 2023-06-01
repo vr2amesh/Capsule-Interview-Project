@@ -1,11 +1,5 @@
 {
   "dependencies": {
     "web3": "^1.10.0"
-  },
-  "devDependencies": {
-    "truffle": "^5.9.2"
-  },
-  "scripts": {
-    "start": "truffle develop"
   }
 }

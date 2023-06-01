@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity >=0.4.22 <0.9.0;
 
 contract MultiSigWallet {
 
@@ -33,7 +33,7 @@ contract MultiSigWallet {
     mapping(uint => mapping(address => bool)) public isConfirmed;
     Transaction[] public transactions;
 
-    constructor(address[] memory _owners) {
+    constructor(address[] memory _owners) public {
         require(_owners.length > 0, "owners required");
 
         for (uint i = 0; i < _owners.length; i++) {
@@ -45,7 +45,6 @@ contract MultiSigWallet {
         } 
     }
 
-
     function deposit() payable external {
         require(!isBlocked[msg.sender], "Blocked sender cannot deposit");
         emit Deposit(msg.sender, msg.value, address(this).balance);
@@ -54,7 +53,7 @@ contract MultiSigWallet {
     function submitTransaction(
         address _target,
         uint _value,
-        bytes memory _data,
+        bytes calldata _data,
         uint _numConfirmationsRequired
     )
         external
@@ -101,7 +100,7 @@ contract MultiSigWallet {
 
         transaction.executed = true;
 
-        (bool success, ) = transaction.target.call{value: transaction.value}(transaction.data);
+        (bool success, ) = transaction.target.call.value(transaction.value)(transaction.data);
         require(success, "transaction failed");
 
         emit ExecuteTransaction(msg.sender, _txIndex);
